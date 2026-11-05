@@ -1,0 +1,17 @@
+# Dependencias
+node_modules/
+**/node_modules/
+
+# Archivos de entorno
+.env
+**/.env
+
+# Archivos generados
+dist/
+**/dist/
+coverage/
+**/coverage/
+
+# Configuración del editor
+.vscode/
+.DS_Store
