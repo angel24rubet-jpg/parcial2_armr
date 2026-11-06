@@ -24,6 +24,9 @@ const precioEntrada = ref<number | null>(null);
 const fechaEvento = ref("");
 const estado = ref("Programado");
 
+// creamos la nueva variable reactiva para almacenar la modalidad de ingreso
+const modalidadIngreso = ref("Entrada pagada");
+
 const idEditar = ref<number | null>(null);
 const busqueda = ref("");
 
@@ -62,6 +65,9 @@ async function guardarEvento() {
       precioEntrada: precioEntrada.value,
       fechaEvento: fechaEvento.value,
       estado: estado.value,
+
+      // Enviar la modalidad de ingreso seleccionada
+      modalidadIngreso: modalidadIngreso.value,
     });
 
     mensaje.value = "Evento registrado correctamente.";
@@ -85,6 +91,9 @@ function seleccionarEvento(evento: any) {
   fechaEvento.value = evento.fechaEvento;
   estado.value = evento.estado;
 
+  // Cargar la modalidad de ingreso del evento seleccionado
+  modalidadIngreso.value = evento.modalidadIngreso;
+
   mensaje.value = "";
   error.value = "";
 }
@@ -107,6 +116,9 @@ async function actualizarEvento() {
       precioEntrada: precioEntrada.value,
       fechaEvento: fechaEvento.value,
       estado: estado.value,
+
+      // Enviar la modalidad de ingreso actualizada
+      modalidadIngreso: modalidadIngreso.value,
     });
 
     mensaje.value = "Evento modificado correctamente.";
@@ -129,6 +141,9 @@ function limpiarFormulario() {
   precioEntrada.value = null;
   fechaEvento.value = "";
   estado.value = "Programado";
+
+  // Restablecer la modalidad de ingreso
+  modalidadIngreso.value = "Entrada pagada";
 }
 
 // Buscar eventos por título
@@ -161,7 +176,7 @@ async function eliminar(id: number) {
   }
 }
 
-// Cargar los datos al abrir la página
+// Cargar los datos al abrir la pagina
 onMounted(() => {
   cargarEventos();
   cargarRecintos();
@@ -258,6 +273,16 @@ function formatearFecha(fecha: string) {
         </select>
       </div>
 
+      <!-- Nuevo Select de modalidad de ingreso del evento -->
+      <div>
+        <label>Modalidad de ingreso:</label>
+        <select v-model="modalidadIngreso" required>
+          <option value="Entrada pagada">Entrada pagada</option>
+          <option value="Entrada Gratuita">Entrada Gratuita</option>
+          <option value="Pase Invitacion">Pase Invitacion</option>
+        </select>
+      </div>
+
       <button type="submit">
         {{ idEditar === null ? "Registrar Evento" : "Actualizar Evento" }}
       </button>
@@ -293,6 +318,8 @@ function formatearFecha(fecha: string) {
           <th>Precio (Bs)</th>
           <th>Fecha</th>
           <th>Estado</th>
+
+          <th>Modalidad de ingreso</th>
           <th>Recinto</th>
           <th>Acciones</th>
         </tr>
@@ -307,6 +334,8 @@ function formatearFecha(fecha: string) {
           <td>{{ evento.precioEntrada }}</td>
           <td>{{ formatearFecha(evento.fechaEvento) }}</td>
           <td>{{ evento.estado }}</td>
+
+          <td>{{ evento.modalidadIngreso }}</td>
           <td>{{ evento.recinto?.nombre ?? "No especificado" }}</td>
           <td>
             <button type="button" @click="seleccionarEvento(evento)">
@@ -318,7 +347,7 @@ function formatearFecha(fecha: string) {
         </tr>
 
         <tr v-if="eventosFiltrados.length === 0">
-          <td colspan="9">No se encontraron eventos.</td>
+          <td colspan="10">No se encontraron eventos.</td>
         </tr>
       </tbody>
     </table>

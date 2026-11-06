@@ -58,6 +58,16 @@ export class EventoCultural {
   })
   estado: EstadoEvento;
 
+  //agregamos la nueva propiedad
+
+    @Column({
+    name: 'modalidad_ingreso',
+    type: 'varchar',
+    length: 30,
+    default: 'Entrada pagada',
+  })
+  modalidadIngreso: string;
+
   @CreateDateColumn({
     name: 'fecha_creacion',
     type: 'timestamp',

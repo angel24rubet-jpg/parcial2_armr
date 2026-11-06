@@ -7,6 +7,7 @@ import {
   IsEnum,
   Min,
   MaxLength,
+  IsIn,
 } from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
@@ -51,4 +52,13 @@ export class CreateEventoCulturalDto {
   })
   @IsEnum(EstadoEvento)
   estado: EstadoEvento;
+
+  // agregamos la validacion
+
+  @ApiProperty({
+  example: 'Entrada pagada',
+  enum: ['Entrada pagada', 'Entrada Gratuita', 'Pase Invitacion'],
+})
+@IsIn(['Entrada pagada', 'Entrada Gratuita', 'Pase Invitacion'])
+modalidadIngreso: string;
 }
